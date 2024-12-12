@@ -27,6 +27,7 @@ public class Main {
         int max = maxNumber(choice);
 
 
+
     }
 
     //Display menu with the difficulty options
@@ -53,4 +54,15 @@ public class Main {
     private static int drawnNumber(int max) {
         return (int) (Math.random() * max) + 1;
     }
+    //Return the max value
+    private static int maxNumber(int choice) {
+        return switch (choice) {
+            case 1 -> 10;
+            case 2 -> 50;
+            case 3 -> 100;
+            default -> 0;
+        };
+    }
+
+
 }
