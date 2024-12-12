@@ -26,6 +26,12 @@ public class Main {
 
         int max = maxNumber(choice);
 
+        while (running) {
+            int systemNumber = drawnNumber(max);
+            int userNumber = readUserNumber(scanner, max);
+
+                running = false;
+        }
 
 
     }
@@ -64,5 +70,16 @@ public class Main {
         };
     }
 
+    //read from keyboard the user option integer number until the max number inclusive
+    private static int readUserNumber(Scanner scanner, int max) {
+        int number = 0;
+        do {
+            System.out.print("Digite um número inteiro entre 1 e " + max + ": ");
+            number = readInteger(scanner);
+
+        } while (number < 0 || number > max);
+
+        return number;
+    }
 
 }
