@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -11,30 +13,43 @@ public class Main {
 
     //Guess Game
     private static void guessGame(Scanner scanner) {
-        boolean running = true;
         int choice = 0;
+        int accumulatedScore = 0;
+       List<Integer> correctNumbers = new ArrayList<>();
+       List<Integer> wrongNumbers = new ArrayList<>();
 
         System.out.println("\n* * * * * J O G O   D O   A D I V I N H A * * * * *\n");
-        System.out.println("Bem vindo ao Jogo!\n\nA qualquer momento que deseje encerrar o jogo e sair digite '0' (zero)");
+        System.out.println("""
+                Bem vindo ao Jogo!
+                
+                A qualquer momento que deseje encerrar o jogo e sair digite '0' (zero)
+                """);
 
         do {
             showDifficultyMenu();
             choice = readInteger(scanner);
-            if (choice == 0)
+            if (choice == 0) {
+                exitMessage();
                 return;
+            }
         } while (choice < 0 || choice > 3);
 
         int max = maxNumber(choice);
 
-        while (running) {
+        while (true) {
             int systemNumber = drawnNumber(max);
             int userNumber = readUserNumber(scanner, max);
+            if (userNumber == 0) {
+                exitMessage();
+                return;
+            }
+            int scored = compareNumbers(systemNumber, userNumber);
+            accumulatedScore += scored;
+            showScore(scored, systemNumber);
 
-                running = false;
         }
-
-
     }
+
 
     //Display menu with the difficulty options
     private static void showDifficultyMenu() {
@@ -60,6 +75,7 @@ public class Main {
     private static int drawnNumber(int max) {
         return (int) (Math.random() * max) + 1;
     }
+
     //Return the max value
     private static int maxNumber(int choice) {
         return switch (choice) {
@@ -81,5 +97,25 @@ public class Main {
 
         return number;
     }
+
+    //compare numbers from system and user and return the scored
+    private static int compareNumbers(int systemNumber, int userNumber) {
+        return (userNumber == systemNumber) ? 10 : (userNumber + 1 == systemNumber || userNumber - 1 == systemNumber) ? 5 : 0;
+    }
+
+    private static void exitMessage() {
+        System.out.println("Obrigado por jogar! Até a próxima!");
+    }
+
+    //show the score in this round
+    private static void showScore(int scored, int systemNumber) {
+        return switch (scored) {
+            case 10 -> System.out.println("Parabéns! Você acertou o número!");
+            case 5 -> System.out.println("Quase lá! Você estava a 1 de distância do número sorteado.");;
+            case 0 -> System.out.println("Que pena! O número sorteado era " + systemNumber + ".");;
+            default -> System.out.println("Não identificamos sua pontuação!");
+        };
+    }
+
 
 }
