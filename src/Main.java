@@ -45,11 +45,16 @@ public class Main {
             }
             int scored = compareNumbers(systemNumber, userNumber);
             accumulatedScore += scored;
-            showScore(scored, systemNumber);
+
+            if (scored == 10)
+                correctNumbers.add(userNumber);
+            else
+                wrongNumbers.add(userNumber);
+
+            showScore(scored, systemNumber, accumulatedScore);
 
         }
     }
-
 
     //Display menu with the difficulty options
     private static void showDifficultyMenu() {
@@ -108,14 +113,17 @@ public class Main {
     }
 
     //show the score in this round
-    private static void showScore(int scored, int systemNumber) {
-        return switch (scored) {
-            case 10 -> System.out.println("Parabéns! Você acertou o número!");
-            case 5 -> System.out.println("Quase lá! Você estava a 1 de distância do número sorteado.");;
-            case 0 -> System.out.println("Que pena! O número sorteado era " + systemNumber + ".");;
+    private static void showScore(int scored, int systemNumber, int accumulatedScore) {
+         switch (scored) {
+            case 10 -> System.out.println("Parabéns! Você acertou o número e ganhou 10 pontos!");
+            case 5 -> System.out.println("Quase lá! Você estava a 1 de distância do número sorteado. Fez 5 pontos.");
+            case 0 -> System.out.println("Que pena! O número sorteado era " + systemNumber + ".");
             default -> System.out.println("Não identificamos sua pontuação!");
         };
+        System.out.println("Pontuação total: " + accumulatedScore);
     }
+
+
 
 
 }
