@@ -24,6 +24,9 @@ public class Main {
                 return;
         } while (choice < 0 || choice > 3);
 
+        int max = maxNumber(choice);
+
+
     }
 
     //Display menu with the difficulty options
@@ -44,5 +47,10 @@ public class Main {
             System.out.println("Número inválido. Tente novamente");
             return -1;
         }
+    }
+
+    // Draws a random number between 1 and parameter value "max"
+    private static int drawnNumber(int max) {
+        return (int) (Math.random() * max) + 1;
     }
 }
