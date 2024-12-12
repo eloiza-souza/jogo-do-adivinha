@@ -24,25 +24,28 @@ public class Main {
                 
                 A qualquer momento que deseje encerrar o jogo e sair digite '0' (zero)
                 """);
-
+        showDifficultyMenu();
         do {
-            showDifficultyMenu();
             choice = readInteger(scanner);
             if (choice == 0) {
                 exitMessage();
                 return;
             }
+            if(choice < 1 || choice > 3)
+                showInvalidNumberMessage();
         } while (choice < 0 || choice > 3);
 
         int max = maxNumber(choice);
 
         while (true) {
-            int systemNumber = drawnNumber(max);
+
             int userNumber = readUserNumber(scanner, max);
             if (userNumber == 0) {
+                showResult(accumulatedScore, correctNumbers,wrongNumbers);
                 exitMessage();
                 return;
             }
+            int systemNumber = drawnNumber(max);
             int scored = compareNumbers(systemNumber, userNumber);
             accumulatedScore += scored;
 
@@ -55,6 +58,7 @@ public class Main {
 
         }
     }
+
 
     //Display menu with the difficulty options
     private static void showDifficultyMenu() {
@@ -71,8 +75,9 @@ public class Main {
         try {
             return scanner.nextInt();
         } catch (Exception e) {
-            System.out.println("Número inválido. Tente novamente");
-            return -1;
+            showInvalidNumberMessage();
+            scanner.nextLine();
+            return readInteger(scanner);
         }
     }
 
@@ -95,7 +100,7 @@ public class Main {
     private static int readUserNumber(Scanner scanner, int max) {
         int number = 0;
         do {
-            System.out.print("Digite um número inteiro entre 1 e " + max + ": ");
+            System.out.print("Digite um número inteiro entre 1 e " + max + " ou '0' para sair: ");
             number = readInteger(scanner);
 
         } while (number < 0 || number > max);
@@ -109,7 +114,7 @@ public class Main {
     }
 
     private static void exitMessage() {
-        System.out.println("Obrigado por jogar! Até a próxima!");
+        System.out.println("\nObrigado por jogar! Até a próxima!");
     }
 
     //show the score in this round
@@ -118,12 +123,20 @@ public class Main {
             case 10 -> System.out.println("Parabéns! Você acertou o número e ganhou 10 pontos!");
             case 5 -> System.out.println("Quase lá! Você estava a 1 de distância do número sorteado. Fez 5 pontos.");
             case 0 -> System.out.println("Que pena! O número sorteado era " + systemNumber + ".");
-            default -> System.out.println("Não identificamos sua pontuação!");
+            default -> System.out.println("*** Não identificamos sua pontuação! ***");
         };
         System.out.println("Pontuação total: " + accumulatedScore);
     }
 
 
+    private static void showResult(int accumulatedScore, List<Integer> correctNumbers, List<Integer> wrongNumbers) {
+        System.out.println("\nVocê alcançou " + accumulatedScore + " pontos!\nNúmeros acertados: "
+                + correctNumbers.toString() + "\nNúmeros errados: " + wrongNumbers.toString());
 
+    }
+
+    private static void showInvalidNumberMessage (){
+        System.out.print("Entrada inválida. Digite novamente: ");
+    }
 
 }
