@@ -3,9 +3,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+    // Instantiate the Scanner as a static variable
     private static final Scanner scanner = new Scanner(System.in);
 
-    // Initializes the game by creating a Scanner object and calling the guessGame method.
+    // Starts the game calling the guessGame method and closes the scanner at the end.
     public static void main(String[] args) {
         guessGame();
         scanner.close();
