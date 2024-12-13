@@ -3,18 +3,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private static final Scanner scanner = new Scanner(System.in);
 
     // Initializes the game by creating a Scanner object and calling the guessGame method.
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        guessGame(scanner);
+        guessGame();
         scanner.close();
     }
 
     /* Main logic for the Guess Game.
      * Handles user input, game flow, and scoring.
      */
-    private static void guessGame(Scanner scanner) {
+    private static void guessGame() {
+
         int choice = 0;
         int accumulatedScore = 0;
         List<Integer> correctNumbers = new ArrayList<>();
@@ -28,7 +29,7 @@ public class Main {
                 """);
         showDifficultyMenu();
         do {
-            choice = readInteger(scanner);
+            choice = readInteger();
             if (choice == 0) {
                 exitMessage();
                 return;
@@ -41,7 +42,7 @@ public class Main {
 
         while (true) {
 
-            int userNumber = readUserNumber(scanner, max);
+            int userNumber = readUserNumber(max);
             if (userNumber == 0) {
                 showResult(accumulatedScore, correctNumbers, wrongNumbers);
                 exitMessage();
@@ -73,13 +74,13 @@ public class Main {
     /* Reads an integer from the user input.
      * Handles invalid input by prompting the user to enter a valid number.
      */
-    private static int readInteger(Scanner scanner) {
+    private static int readInteger() {
         try {
             return scanner.nextInt();
         } catch (Exception e) {
             showInvalidNumberMessage();
             scanner.nextLine();
-            return readInteger(scanner);
+            return readInteger();
         }
     }
 
@@ -101,11 +102,11 @@ public class Main {
     /* Reads a number from the user within the specified range between 0 and 'max'.
      *  Prompts the user until a valid number is entered.
      */
-    private static int readUserNumber(Scanner scanner, int max) {
+    private static int readUserNumber(int max) {
         int number = 0;
         do {
             System.out.print("Digite um número inteiro entre 1 e " + max + " ou '0' para sair: ");
-            number = readInteger(scanner);
+            number = readInteger();
         } while (number < 0 || number > max);
 
         return number;
